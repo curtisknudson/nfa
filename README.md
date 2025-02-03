@@ -21,11 +21,11 @@ cargo install nfa
 ### Creating a new note
 
 ```bash
-# Quick note (title will be generated from content)
-nfa new "This is my first note"
+# Quick note (automatically generates title from content)
+nfa "This is a quick note"
 
-# Note with custom title
-nfa new -t "My Note" "This is my first note"
+# Structured note (requires both title and content flags)
+nfa new -t "My Title" -c "This is the content"
 ```
 
 ### Listing all notes

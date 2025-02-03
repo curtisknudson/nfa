@@ -1,7 +1,7 @@
 use rand::random;
 use serde::{Deserialize, Serialize};
 use sled::Db;
-use std::{error::Error, fmt, time::SystemTime};
+use std::{cmp::Ordering, error::Error, fmt, time::SystemTime};
 
 #[derive(Debug)]
 pub enum NFAError {
@@ -41,6 +41,20 @@ pub struct Note {
     pub content: String,
     pub created_at: SystemTime,
     pub updated_at: SystemTime,
+}
+
+impl Eq for Note {}
+
+impl Ord for Note {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.updated_at.cmp(&other.updated_at)
+    }
+}
+
+impl PartialOrd for Note {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
 }
 
 pub struct NoteManager {
@@ -117,6 +131,9 @@ impl NoteManager {
             let note: Note = bincode::deserialize(&value)?;
             notes.push(note);
         }
+
+        // Sort notes by updated_at timestamp
+        notes.sort_by(|a, b| a.updated_at.cmp(&b.updated_at));
 
         Ok(notes)
     }

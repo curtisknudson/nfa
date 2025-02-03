@@ -5,11 +5,38 @@ use std::path::PathBuf;
 #[derive(Parser)]
 #[command(name = "nfa")]
 #[command(about = "A simple note-taking application", long_about = None)]
+#[command(
+    long_about = "A command-line note-taking application that allows you to create, list, show, update, and delete notes."
+)]
+#[command(after_help = "Examples:
+    Quick note, title inferred:
+    $ nfa \"This is a quick note\"
+
+    Create note with title:
+    $ nfa new -t \"Meeting Notes\" -c \"Discuss project timeline\"
+
+    List all notes from first to last:
+    $ nfa list
+
+    Show specific note:
+    $ nfa show <note-id>
+
+    Update note:
+    $ nfa update -i <note-id> -t \"New Title\" -c \"New Content\"
+
+    Delete note:
+    $ nfa delete <note-id>")]
+
 struct Cli {
     #[command(subcommand)]
     command: Option<Commands>,
 
-    #[arg(group = "input")]
+    #[arg(
+        group = "input",
+        value_name = "QUICK_NOTE",
+        help = "Create a quick note without specifying a title",
+        long_help = "Create a quick note without explicitly specifying a title. The title will be inferred from the first few characters of the content."
+    )]
     content: Option<String>,
 }
 

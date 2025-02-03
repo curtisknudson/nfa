@@ -24,11 +24,9 @@ enum Commands {
     },
     List,
     Show {
-        #[arg(short, long)]
         id: String,
     },
     Delete {
-        #[arg(short, long)]
         id: String,
     },
     Update {

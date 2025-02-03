@@ -37,7 +37,7 @@ nfa list
 ### Showing a specific note
 
 ```bash
-nfa show --id <note-id>
+nfa show <note-id>
 ```
 
 ### Updating a note
@@ -49,7 +49,7 @@ nfa update --id <note-id> --title "New Title" --content "Updated content"
 ### Deleting a note
 
 ```bash
-nfa delete --id <note-id>
+nfa delete <note-id>
 ```
 
 ## Storage

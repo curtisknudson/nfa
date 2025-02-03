@@ -14,9 +14,9 @@ struct Cli {
 enum Commands {
     New {
         #[arg(short, long)]
-        title: String,
+        title: Option<String>,
 
-        #[arg(short, long)]
+        #[arg(help = "The content of the note")]
         content: String,
     },
     List,
@@ -51,6 +51,21 @@ fn main() -> Result<(), NFAError> {
 
     match cli.command {
         Commands::New { title, content } => {
+            if content.is_empty() {
+                println!("Error: Content cannot be empty");
+                return Ok(());
+            }
+
+            // Generate default title from content if none provided
+            let title = title.unwrap_or_else(|| {
+                let default_title = content.chars().take(10).collect::<String>();
+                if content.len() > 10 {
+                    format!("{}...", default_title)
+                } else {
+                    default_title
+                }
+            });
+
             let note = manager.create_note(title, content)?;
             println!("Created note with ID: {}", note.id);
         }

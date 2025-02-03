@@ -21,7 +21,11 @@ cargo install nfa
 ### Creating a new note
 
 ```bash
-nfa new --title "My Note" --content "This is my first note"
+# Quick note (title will be generated from content)
+nfa new "This is my first note"
+
+# Note with custom title
+nfa new -t "My Note" "This is my first note"
 ```
 
 ### Listing all notes
